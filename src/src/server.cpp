@@ -34,13 +34,13 @@ using namespace QHttpEngine;
 ServerPrivate::ServerPrivate(Server *httpServer)
     : QObject(httpServer),
       q(httpServer),
-      handler(0)
+      handler(nullptr)
 {
 }
 
 void ServerPrivate::process(QTcpSocket *socket)
 {
-    Socket *httpSocket = new Socket(socket, this);
+    auto *httpSocket = new Socket(socket, this);
 
     // Wait until the socket finishes reading the HTTP headers before routing
     connect(httpSocket, &Socket::headersParsed, [this, httpSocket]() {
@@ -83,7 +83,7 @@ void Server::incomingConnection(qintptr socketDescriptor)
     if (!d->configuration.isNull()) {
 
         // Initialize the socket with the SSL configuration
-        QSslSocket *socket = new QSslSocket(this);
+        auto *socket = new QSslSocket(this);
 
         // Wait until encryption is complete before processing the socket
         connect(socket, &QSslSocket::encrypted, [this, socket]() {
@@ -101,7 +101,7 @@ void Server::incomingConnection(qintptr socketDescriptor)
     } else {
 #endif
 
-        QTcpSocket *socket = new QTcpSocket(this);
+        auto *socket = new QTcpSocket(this);
         socket->setSocketDescriptor(socketDescriptor);
 
         // Process the socket immediately

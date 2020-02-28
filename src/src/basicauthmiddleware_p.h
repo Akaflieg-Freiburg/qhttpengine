@@ -35,7 +35,7 @@ class BasicAuthMiddlewarePrivate : public QObject
 
 public:
 
-    explicit BasicAuthMiddlewarePrivate(QObject *parent, const QString &realm);
+    explicit BasicAuthMiddlewarePrivate(QObject *parent, QString realm);
 
     const QString realm;
     QMap<QString, QString> map;

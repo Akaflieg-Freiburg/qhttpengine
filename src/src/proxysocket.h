@@ -42,7 +42,7 @@ class ProxySocket: public QObject
 
 public:
 
-    explicit ProxySocket(QHttpEngine::Socket *socket, const QString &path, const QHostAddress &address, quint16 port);
+    explicit ProxySocket(QHttpEngine::Socket *socket, QString path, const QHostAddress &address, quint16 port);
 
 private Q_SLOTS:
 

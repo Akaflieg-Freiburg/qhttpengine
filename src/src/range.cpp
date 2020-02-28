@@ -46,7 +46,7 @@ Range::Range(const QString &range, qint64 dataSize)
 {
     QRegExp regExp("^(\\d*)-(\\d*)$");
 
-    int from = 0, to = -1;
+    int from = 0; int to = -1;
 
     if (regExp.indexIn(range.trimmed()) != -1) {
         QString fromStr = regExp.cap(1);
@@ -61,7 +61,7 @@ Range::Range(const QString &range, qint64 dataSize)
             return;
         }
 
-        bool okFrom = true, okTo = true;
+        bool okFrom = true; bool okTo = true;
 
         if (!fromStr.isEmpty()) {
             from = fromStr.toInt(&okFrom);
@@ -241,15 +241,15 @@ bool Range::isValid() const
     } else { // dataSize is not set
         if (d->from < 0) { // Last n bytes
             return true;
-        } else {
-            if (d->to <= -1) { // To isn't set, range is up to the end
-                return true;
-            } else { // from and to are set
-                if (d->from <= d->to) {
-                    return true;
-                }
-            }
         }
+        if (d->to <= -1) { // To isn't set, range is up to the end
+            return true;
+        } // from and to are set
+        if (d->from <= d->to) {
+            return true;
+        }
+        
+        
     }
 
     return false;
@@ -257,7 +257,7 @@ bool Range::isValid() const
 
 QString Range::contentRange() const
 {
-    QString fromStr, toStr, sizeStr = "*";
+    QString fromStr; QString toStr; QString sizeStr = "*";
 
     if (d->dataSize >= 0) {
         if (isValid()) {

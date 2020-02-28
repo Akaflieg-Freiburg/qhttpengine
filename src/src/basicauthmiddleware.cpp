@@ -24,14 +24,14 @@
 #include <qhttpengine/ibytearray.h>
 #include <qhttpengine/parser.h>
 #include <qhttpengine/socket.h>
-
+ #include <utility> 
 #include "basicauthmiddleware_p.h"
 
 using namespace QHttpEngine;
 
-BasicAuthMiddlewarePrivate::BasicAuthMiddlewarePrivate(QObject *parent, const QString &realm)
+BasicAuthMiddlewarePrivate::BasicAuthMiddlewarePrivate(QObject *parent, QString realm)
     : QObject(parent),
-      realm(realm)
+      realm(std::move(realm))
 {
 }
 

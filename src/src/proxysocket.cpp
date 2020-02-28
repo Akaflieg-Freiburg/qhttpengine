@@ -21,15 +21,15 @@
  */
 
 #include <qhttpengine/parser.h>
-
+ #include <utility> 
 #include "proxysocket.h"
 
 using namespace QHttpEngine;
 
-ProxySocket::ProxySocket(Socket *socket, const QString &path, const QHostAddress &address, quint16 port)
+ProxySocket::ProxySocket(Socket *socket, QString path, const QHostAddress &address, quint16 port)
     : QObject(socket),
       mDownstreamSocket(socket),
-      mPath(path),
+      mPath(std::move(path)),
       mHeadersParsed(false),
       mHeadersWritten(false)
 {
@@ -135,7 +135,7 @@ void ProxySocket::onUpstreamReadyRead()
     }
 }
 
-void ProxySocket::onUpstreamError(QAbstractSocket::SocketError socketError)
+void ProxySocket::onUpstreamError(QAbstractSocket::SocketError  /*socketError*/)
 {
     if (mHeadersParsed) {
         mDownstreamSocket->close();

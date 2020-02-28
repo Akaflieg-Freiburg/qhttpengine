@@ -34,9 +34,9 @@ public:
 
     explicit RangePrivate(Range *range);
 
-    qint64 from;
-    qint64 to;
-    qint64 dataSize;
+    qint64 from{};
+    qint64 to{};
+    qint64 dataSize{};
 
 private:
 

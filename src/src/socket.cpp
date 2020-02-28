@@ -37,20 +37,20 @@ using namespace QHttpEngine;
 const QString ErrorTemplate =
         "<!DOCTYPE html>"
         "<html>"
-          "<head>"
-            "<meta charset=\"utf-8\">"
-            "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
-            "<title>%1 %2</title>"
-          "</head>"
-          "<body>"
-            "<h1>%1 %2</h1>"
-            "<p>"
-              "An error has occurred while trying to display the requested resource. "
-              "Please contact the website owner if this error persists."
-            "</p>"
-            "<hr>"
-            "<p><em>QHttpEngine %3</em></p>"
-          "</body>"
+        "<head>"
+        "<meta charset=\"utf-8\">"
+        "<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">"
+        "<title>%1 %2</title>"
+        "</head>"
+        "<body>"
+        "<h1>%1 %2</h1>"
+        "<p>"
+        "An error has occurred while trying to display the requested resource. "
+        "Please contact the website owner if this error persists."
+        "</p>"
+        "<hr>"
+        "<p><em>QHttpEngine %3</em></p>"
+        "</body>"
         "</html>";
 
 SocketPrivate::SocketPrivate(Socket *httpSocket, QTcpSocket *tcpSocket)
@@ -208,9 +208,9 @@ qint64 Socket::bytesAvailable() const
 {
     if (d->readState > SocketPrivate::ReadHeaders) {
         return d->readBuffer.size() + QIODevice::bytesAvailable();
-    } else {
-        return 0;
     }
+    return 0;
+    
 }
 
 bool Socket::isSequential() const
@@ -272,7 +272,7 @@ qint64 Socket::contentLength() const
 
 bool Socket::readJson(QJsonDocument &document)
 {
-    QJsonParseError error;
+    QJsonParseError error{};
     document = QJsonDocument::fromJson(readAll(), &error);
 
     if (error.error != QJsonParseError::NoError) {
@@ -347,8 +347,7 @@ void Socket::writeError(int statusCode, const QByteArray &statusReason)
     // Build the template that will be sent to the client
     QByteArray data = ErrorTemplate
             .arg(d->responseStatusCode)
-            .arg(d->responseStatusReason.constData())
-            .arg(QHTTPENGINE_VERSION)
+            .arg(d->responseStatusReason.constData(), QHTTPENGINE_VERSION)
             .toUtf8();
 
     setHeader("Content-Length", QByteArray::number(data.length()));

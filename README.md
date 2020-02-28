@@ -1,11 +1,10 @@
 ## QHTTPEngine
 
-[![Build Status](https://travis-ci.org/nitroshare/qhttpengine.svg?branch=master)](https://travis-ci.org/nitroshare/qhttpengine)
-[![MIT License](http://img.shields.io/badge/license-MIT-blue.svg?style=flat)](http://opensource.org/licenses/MIT)
-
 Simple set of classes for developing HTTP server applications in Qt.
 
 ### Documentation
+
+This fork of nitroshare/qhttpengine differs from the orininal only in that it fixes a few compile warnings, and that it implements a few trivial improvements in the source code, as suggested by the clang/clazy static analysis tool. 
 
 To learn more about building and using the library, please visit this page:
 

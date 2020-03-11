@@ -73,6 +73,7 @@ public:
     bool open();
 
 private:
+    using QFile::open;
 
     LocalFilePrivate *const d;
     friend class LocalFilePrivate;

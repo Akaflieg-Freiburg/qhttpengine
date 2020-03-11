@@ -40,7 +40,7 @@ public:
 
 private:
 
-    Range *const q;
+    [[maybe_unused]] Range *const q;
 };
 
 }

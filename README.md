@@ -1,5 +1,7 @@
 ## QHTTPEngine
 
+![Compile](https://github.com/Akaflieg-Freiburg/qhttpengine/workflows/Compile/badge.svg)
+
 Simple set of classes for developing HTTP server applications in Qt.
 
 ### Documentation

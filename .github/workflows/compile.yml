@@ -1,4 +1,4 @@
-name: Compile and Generate Documentation
+name: Compile
 
 on:
   push:

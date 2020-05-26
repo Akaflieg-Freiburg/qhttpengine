@@ -91,8 +91,11 @@ void Server::incomingConnection(qintptr socketDescriptor)
         });
 
         // If an error occurs, delete the socket
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
         connect(socket, &QAbstractSocket::errorOccurred, socket, &QSslSocket::deleteLater);
-
+#else
+        connect(socket, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error), socket, &QSslSocket::deleteLater);
+#endif
         socket->setSocketDescriptor(socketDescriptor);
         socket->setSslConfiguration(d->configuration);
         socket->startServerEncryption();

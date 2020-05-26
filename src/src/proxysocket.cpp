@@ -38,13 +38,11 @@ ProxySocket::ProxySocket(Socket *socket, QString path, const QHostAddress &addre
 
     connect(&mUpstreamSocket, &QTcpSocket::connected, this, &ProxySocket::onUpstreamConnected);
     connect(&mUpstreamSocket, &QTcpSocket::readyRead, this, &ProxySocket::onUpstreamReadyRead);
-    connect(
-        &mUpstreamSocket,
-        static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error),
-        this,
-        &ProxySocket::onUpstreamError
-    );
-
+#if (QT_VERSION >= QT_VERSION_CHECK(5, 15, 0))
+    connect(&mUpstreamSocket, &QAbstractSocket::errorOccurred, this, &ProxySocket::onUpstreamError);
+#else
+    connect(&mUpstreamSocket, static_cast<void(QAbstractSocket::*)(QAbstractSocket::SocketError)>(&QAbstractSocket::error), this, &ProxySocket::onUpstreamError);
+#endif
     mUpstreamSocket.connectToHost(address, port);
 }
 

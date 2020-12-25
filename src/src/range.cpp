@@ -31,6 +31,7 @@ using namespace QHttpEngine;
 RangePrivate::RangePrivate(Range *range)
     : q(range)
 {
+    (void)q;
 }
 
 Range::Range()

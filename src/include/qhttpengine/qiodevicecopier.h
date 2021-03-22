@@ -125,7 +125,6 @@ public Q_SLOTS:
     void stop();
 
 private:
-
     QIODeviceCopierPrivate *const d;
     friend class QIODeviceCopierPrivate;
 };

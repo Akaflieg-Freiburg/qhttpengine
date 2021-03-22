@@ -161,8 +161,11 @@ void QIODeviceCopier::start()
 
 void QIODeviceCopier::stop()
 {
-    disconnect(d->src, &QIODevice::readyRead, d, &QIODeviceCopierPrivate::onReadyRead);
-    disconnect(d->src, &QIODevice::readChannelFinished, d, &QIODeviceCopierPrivate::onReadChannelFinished);
+
+    if (!d->src.isNull()) {
+        disconnect(d->src, &QIODevice::readyRead, d, &QIODeviceCopierPrivate::onReadyRead);
+        disconnect(d->src, &QIODevice::readChannelFinished, d, &QIODeviceCopierPrivate::onReadChannelFinished);
+    }
 
     Q_EMIT finished();
 }

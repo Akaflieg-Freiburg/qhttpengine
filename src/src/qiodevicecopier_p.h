@@ -24,6 +24,7 @@
 #define QHTTPENGINE_QIODEVICECOPIER_P_H
 
 #include <QObject>
+#include <QPointer>
 
 class QIODevice;
 
@@ -40,8 +41,8 @@ public:
 
     QIODeviceCopierPrivate(QIODeviceCopier *copier, QIODevice *srcDevice, QIODevice *destDevice);
 
-    QIODevice *const src;
-    QIODevice *const dest;
+    QPointer<QIODevice> src;
+    QPointer<QIODevice> dest;
 
     qint64 bufferSize;
 

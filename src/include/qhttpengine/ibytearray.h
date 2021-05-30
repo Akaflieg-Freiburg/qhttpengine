@@ -47,6 +47,8 @@ public:
     IByteArray(const QByteArray &other) : QByteArray(other) {}
     IByteArray(const IByteArray &other) : QByteArray(other) {}
     IByteArray(const char *data, int size = -1) : QByteArray(data, size) {}
+    IByteArray& operator= ( const IByteArray& ) = default;
+    ~IByteArray() = default;
 
     inline bool operator==(const QString &s2) const { return toLower() == s2.toLower(); }
     inline bool operator!=(const QString &s2) const { return toLower() != s2.toLower(); }

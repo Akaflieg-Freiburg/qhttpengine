@@ -38,7 +38,7 @@ public:
 
     SocketPrivate(Socket *httpSocket, QTcpSocket *tcpSocket);
 
-    QByteArray statusReason(int statusCode) const;
+    static QByteArray statusReason(int statusCode) ;
 
     QTcpSocket *socket;
     QByteArray readBuffer;
@@ -67,7 +67,7 @@ public:
     int responseStatusCode;
     QByteArray responseStatusReason;
     Socket::HeaderMap responseHeaders;
-    qint64 responseHeaderRemaining;
+    qint64 responseHeaderRemaining{};
 
 private Q_SLOTS:
 

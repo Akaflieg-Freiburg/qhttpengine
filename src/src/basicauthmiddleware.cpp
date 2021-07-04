@@ -20,12 +20,12 @@
  * IN THE SOFTWARE.
  */
 
+#include "basicauthmiddleware_p.h"
 #include <qhttpengine/basicauthmiddleware.h>
 #include <qhttpengine/ibytearray.h>
 #include <qhttpengine/parser.h>
-#include <qhttpengine/socket.h>
- #include <utility> 
-#include "basicauthmiddleware_p.h"
+ #include <qhttpengine/socket.h>
+#include <utility> 
 
 using namespace QHttpEngine;
 
@@ -46,12 +46,12 @@ void BasicAuthMiddleware::add(const QString &username, const QString &password)
     d->map.insert(username, password);
 }
 
-bool BasicAuthMiddleware::verify(const QString &username, const QString &password)
+auto BasicAuthMiddleware::verify(const QString &username, const QString &password) -> bool
 {
     return d->map.contains(username) && d->map.value(username) == password;
 }
 
-bool BasicAuthMiddleware::process(Socket *socket)
+auto BasicAuthMiddleware::process(Socket *socket) -> bool
 {
     // Attempt to extract credentials from the header
     QByteArrayList headerParts = socket->headers().value("Authorization").split(' ');

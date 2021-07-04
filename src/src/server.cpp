@@ -44,7 +44,7 @@ void ServerPrivate::process(QTcpSocket *socket)
 
     // Wait until the socket finishes reading the HTTP headers before routing
     connect(httpSocket, &Socket::headersParsed, [this, httpSocket]() {
-        if (handler) {
+        if (handler != nullptr) {
             handler->route(httpSocket, QString(httpSocket->path().mid(1)));
         } else {
             httpSocket->writeError(Socket::InternalServerError);

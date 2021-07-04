@@ -55,7 +55,7 @@ private Q_SLOTS:
 
 private:
 
-    QString methodToString(QHttpEngine::Socket::Method method) const;
+    static QString methodToString(QHttpEngine::Socket::Method method) ;
 
     QHttpEngine::Socket *mDownstreamSocket;
     QTcpSocket mUpstreamSocket;

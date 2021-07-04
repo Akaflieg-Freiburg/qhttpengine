@@ -88,7 +88,7 @@ void Handler::route(Socket *socket, const QString &path)
     process(socket, path);
 }
 
-void Handler::process(Socket *socket, const QString &)
+void Handler::process(Socket *socket, const QString & /*unused*/)
 {
     // The default response is simply a 404 error
     socket->writeError(Socket::NotFound);

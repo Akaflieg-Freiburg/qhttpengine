@@ -41,11 +41,11 @@ public:
 
     FilesystemHandlerPrivate(FilesystemHandler *handler);
 
-    bool absolutePath(const QString &path, QString &absolutePath);
-    QByteArray mimeType(const QString &path);
+    bool absolutePath(const QString &path, QString &absolutePath) const;
+    QByteArray mimeType(const QString &path) const;
 
     void processFile(Socket* socket, const QString &absolutePath);
-    void processDirectory(Socket* socket, const QString &path, const QString &absolutePath);
+    static void processDirectory(Socket* socket, const QString &path, const QString &absolutePath);
 
     QDir documentRoot;
     QMimeDatabase database;

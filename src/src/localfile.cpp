@@ -45,7 +45,7 @@ LocalFilePrivate::LocalFilePrivate(LocalFile *localFile)
     q->setFileName(QDir::home().absoluteFilePath("." + QCoreApplication::applicationName()));
 }
 
-bool LocalFilePrivate::setPermission()
+auto LocalFilePrivate::setPermission() -> bool
 {
 #if defined(Q_OS_UNIX)
     return chmod(q->fileName().toUtf8().constData(), S_IRUSR | S_IWUSR) == 0;
@@ -89,7 +89,7 @@ bool LocalFilePrivate::setPermission()
 #endif
 }
 
-bool LocalFilePrivate::setHidden()
+auto LocalFilePrivate::setHidden() -> bool
 {
 #if defined(Q_OS_UNIX)
     // On Unix, anything beginning with a "." is hidden
@@ -108,7 +108,7 @@ LocalFile::LocalFile(QObject *parent)
 {
 }
 
-bool LocalFile::open()
+auto LocalFile::open() -> bool
 {
     return QFile::open(QIODevice::WriteOnly) && d->setPermission() && d->setHidden();
 }

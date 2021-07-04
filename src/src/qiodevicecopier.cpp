@@ -54,7 +54,7 @@ void QIODeviceCopierPrivate::onReadyRead()
 void QIODeviceCopierPrivate::onReadChannelFinished()
 {
     // Read any data that remains and signal the end of the operation
-    if (src->bytesAvailable()) {
+    if (src->bytesAvailable() != 0) {
         onReadyRead();
     }
 

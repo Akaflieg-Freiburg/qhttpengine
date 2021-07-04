@@ -75,7 +75,7 @@ SocketPrivate::SocketPrivate(Socket *httpSocket, QTcpSocket *tcpSocket)
     onReadyRead();
 }
 
-QByteArray SocketPrivate::statusReason(int statusCode) const
+auto SocketPrivate::statusReason(int statusCode)  -> QByteArray
 {
     switch (statusCode) {
     case Socket::OK: return "OK";
@@ -146,7 +146,7 @@ void SocketPrivate::onReadChannelFinished()
     }
 }
 
-bool SocketPrivate::readHeaders()
+auto SocketPrivate::readHeaders() -> bool
 {
     // Check for the double CRLF that signals the end of the headers and
     // if it is not found, wait until the next time readyRead is emitted
@@ -183,7 +183,7 @@ bool SocketPrivate::readHeaders()
 void SocketPrivate::readData()
 {
     // Emit the readyRead() signal if any data is available in the buffer
-    if (readBuffer.size()) {
+    if (readBuffer.size() != 0) {
         Q_EMIT q->readyRead();
     }
 
@@ -204,7 +204,7 @@ Socket::Socket(QTcpSocket *socket, QObject *parent)
     setOpenMode(QIODevice::ReadWrite);
 }
 
-qint64 Socket::bytesAvailable() const
+auto Socket::bytesAvailable() const -> qint64
 {
     if (d->readState > SocketPrivate::ReadHeaders) {
         return d->readBuffer.size() + QIODevice::bytesAvailable();
@@ -213,7 +213,7 @@ qint64 Socket::bytesAvailable() const
     
 }
 
-bool Socket::isSequential() const
+auto Socket::isSequential() const -> bool
 {
     return true;
 }
@@ -230,47 +230,47 @@ void Socket::close()
     d->socket->close();
 }
 
-QHostAddress Socket::peerAddress() const
+auto Socket::peerAddress() const -> QHostAddress
 {
     return d->socket->peerAddress();
 }
 
-bool Socket::isHeadersParsed() const
+auto Socket::isHeadersParsed() const -> bool
 {
     return d->readState > SocketPrivate::ReadHeaders;
 }
 
-Socket::Method Socket::method() const
+auto Socket::method() const -> Socket::Method
 {
     return d->requestMethod;
 }
 
-QByteArray Socket::rawPath() const
+auto Socket::rawPath() const -> QByteArray
 {
     return d->requestRawPath;
 }
 
-QString Socket::path() const
+auto Socket::path() const -> QString
 {
     return d->requestPath;
 }
 
-Socket::QueryStringMap Socket::queryString() const
+auto Socket::queryString() const -> Socket::QueryStringMap
 {
     return d->requestQueryString;
 }
 
-Socket::HeaderMap Socket::headers() const
+auto Socket::headers() const -> Socket::HeaderMap
 {
     return d->requestHeaders;
 }
 
-qint64 Socket::contentLength() const
+auto Socket::contentLength() const -> qint64
 {
     return d->requestDataTotal;
 }
 
-bool Socket::readJson(QJsonDocument &document)
+auto Socket::readJson(QJsonDocument &document) -> bool
 {
     QJsonParseError error{};
     document = QJsonDocument::fromJson(readAll(), &error);
@@ -291,7 +291,7 @@ void Socket::setStatusCode(int statusCode, const QByteArray &statusReason)
 
 void Socket::setHeader(const QByteArray &name, const QByteArray &value, bool replace)
 {
-    if (replace || d->responseHeaders.count(name)) {
+    if (replace || (d->responseHeaders.count(name) != 0)) {
         d->responseHeaders.replace(name, value);
     } else {
         d->responseHeaders.replace(name, d->responseHeaders.value(name) + ", " + value);
@@ -368,7 +368,7 @@ void Socket::writeJson(const QJsonDocument &document, int statusCode)
     close();
 }
 
-qint64 Socket::readData(char *data, qint64 maxlen)
+auto Socket::readData(char *data, qint64 maxlen) -> qint64
 {
     // Ensure the connection is in the correct state for reading data
     if (d->readState == SocketPrivate::ReadHeaders) {
@@ -386,7 +386,7 @@ qint64 Socket::readData(char *data, qint64 maxlen)
     return size;
 }
 
-qint64 Socket::writeData(const char *data, qint64 len)
+auto Socket::writeData(const char *data, qint64 len) -> qint64
 {
     // If the response headers have not yet been written, they must
     // immediately be written before the data can be

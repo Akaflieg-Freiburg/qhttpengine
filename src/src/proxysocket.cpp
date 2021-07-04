@@ -20,9 +20,9 @@
  * IN THE SOFTWARE.
  */
 
-#include <qhttpengine/parser.h>
- #include <utility> 
 #include "proxysocket.h"
+ #include <qhttpengine/parser.h>
+#include <utility> 
 
 using namespace QHttpEngine;
 
@@ -91,7 +91,7 @@ void ProxySocket::onUpstreamConnected()
     mHeadersWritten = true;
 
     // If there is any data buffered for writing, write it
-    if (mUpstreamWrite.size()) {
+    if (mUpstreamWrite.size() != 0) {
         mUpstreamSocket.write(mUpstreamWrite);
         mUpstreamWrite.clear();
     }
@@ -110,7 +110,7 @@ void ProxySocket::onUpstreamReadyRead()
         if (index != -1) {
 
             // Parse the headers
-            int statusCode;
+            int statusCode = 0;
             QByteArray statusReason;
             Socket::HeaderMap headers;
             if (!Parser::parseResponseHeaders(mUpstreamRead.left(index), statusCode, statusReason, headers)) {
@@ -142,7 +142,7 @@ void ProxySocket::onUpstreamError(QAbstractSocket::SocketError  /*socketError*/)
     }
 }
 
-QString ProxySocket::methodToString(Socket::Method method) const
+auto ProxySocket::methodToString(Socket::Method method)  -> QString
 {
     switch (method) {
     case Socket::OPTIONS: return "OPTIONS";

@@ -58,12 +58,12 @@ LocalAuthMiddleware::LocalAuthMiddleware(QObject *parent)
 {
 }
 
-bool LocalAuthMiddleware::exists() const
+auto LocalAuthMiddleware::exists() const -> bool
 {
     return d->file.exists();
 }
 
-QString LocalAuthMiddleware::filename() const
+auto LocalAuthMiddleware::filename() const -> QString
 {
     return d->file.fileName();
 }
@@ -80,7 +80,7 @@ void LocalAuthMiddleware::setHeaderName(const QByteArray &name)
     d->tokenHeader = name;
 }
 
-bool LocalAuthMiddleware::process(Socket *socket)
+auto LocalAuthMiddleware::process(Socket *socket) -> bool
 {
     if (socket->headers().value(d->tokenHeader) != d->token) {
         socket->writeError(Socket::Forbidden);

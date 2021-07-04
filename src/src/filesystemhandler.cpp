@@ -56,7 +56,7 @@ FilesystemHandlerPrivate::FilesystemHandlerPrivate(FilesystemHandler *handler)
 {
 }
 
-bool FilesystemHandlerPrivate::absolutePath(const QString &path, QString &absolutePath)
+auto FilesystemHandlerPrivate::absolutePath(const QString &path, QString &absolutePath) const -> bool
 {
     // Resolve the path according to the document root
     absolutePath = documentRoot.absoluteFilePath(path);
@@ -67,7 +67,7 @@ bool FilesystemHandlerPrivate::absolutePath(const QString &path, QString &absolu
     return documentRoot.exists(absolutePath) && !documentRoot.relativeFilePath(path).startsWith("../");
 }
 
-QByteArray FilesystemHandlerPrivate::mimeType(const QString &absolutePath)
+auto FilesystemHandlerPrivate::mimeType(const QString &absolutePath) const -> QByteArray
 {
     // Query the MIME database based on the filename and its contents
     return database.mimeTypeForFile(absolutePath).name().toUtf8();
@@ -88,9 +88,7 @@ void FilesystemHandlerPrivate::processFile(Socket *socket, const QString &absolu
     auto *copier = new QIODeviceCopier(file, socket);
     connect(copier, &QIODeviceCopier::finished, copier, &QIODeviceCopier::deleteLater);
     connect(copier, &QIODeviceCopier::finished, file, &QFile::deleteLater);
-    connect(copier, &QIODeviceCopier::finished, [socket]() {
-        socket->close();
-    });
+    connect(copier, &QIODeviceCopier::finished, socket, &QIODevice::close);
 
     // Stop the copier if the socket is disconnected
     connect(socket, &Socket::disconnected, copier, &QIODeviceCopier::stop);

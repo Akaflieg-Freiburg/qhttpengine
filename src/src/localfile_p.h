@@ -39,7 +39,7 @@ public:
     explicit LocalFilePrivate(LocalFile *localFile);
 
     bool setPermission();
-    bool setHidden();
+    static bool setHidden();
 
 private:
 

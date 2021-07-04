@@ -63,7 +63,7 @@ public:
         bool readAll;
     };
 
-    void invokeSlot(Socket*socket, Method m);
+    static void invokeSlot(Socket*socket, Method m);
 
     QMap<QString, Method> map;
 

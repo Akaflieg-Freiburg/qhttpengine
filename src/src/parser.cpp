@@ -32,7 +32,7 @@ void Parser::split(const QByteArray &data, const QByteArray &delim, int maxSplit
 {
     int index = 0;
 
-    for (int i = 0; !maxSplit || i < maxSplit; ++i) {
+    for (int i = 0; (maxSplit == 0) || i < maxSplit; ++i) {
         int nextIndex = data.indexOf(delim, index);
 
         if (nextIndex == -1) {
@@ -47,7 +47,7 @@ void Parser::split(const QByteArray &data, const QByteArray &delim, int maxSplit
     parts.append(data.mid(index));
 }
 
-bool Parser::parsePath(const QByteArray &rawPath, QString &path, Socket::QueryStringMap &queryString)
+auto Parser::parsePath(const QByteArray &rawPath, QString &path, Socket::QueryStringMap &queryString) -> bool
 {
     QUrl url(rawPath);
     if (!url.isValid()) {
@@ -63,7 +63,7 @@ bool Parser::parsePath(const QByteArray &rawPath, QString &path, Socket::QuerySt
     return true;
 }
 
-bool Parser::parseHeaderList(const QList<QByteArray> &lines, Socket::HeaderMap &headers)
+auto Parser::parseHeaderList(const QList<QByteArray> &lines, Socket::HeaderMap &headers) -> bool
 {
     foreach (const QByteArray &line, lines) {
 
@@ -82,7 +82,7 @@ bool Parser::parseHeaderList(const QList<QByteArray> &lines, Socket::HeaderMap &
     return true;
 }
 
-bool Parser::parseHeaders(const QByteArray &data, QList<QByteArray> &parts, Socket::HeaderMap &headers)
+auto Parser::parseHeaders(const QByteArray &data, QList<QByteArray> &parts, Socket::HeaderMap &headers) -> bool
 {
     // Split the data into individual lines
     QList<QByteArray> lines;
@@ -97,7 +97,7 @@ bool Parser::parseHeaders(const QByteArray &data, QList<QByteArray> &parts, Sock
     return parseHeaderList(lines, headers);
 }
 
-bool Parser::parseRequestHeaders(const QByteArray &data, Socket::Method &method, QByteArray &path, Socket::HeaderMap &headers)
+auto Parser::parseRequestHeaders(const QByteArray &data, Socket::Method &method, QByteArray &path, Socket::HeaderMap &headers) -> bool
 {
     QList<QByteArray> parts;
     if (!parseHeaders(data, parts, headers)) {
@@ -134,7 +134,7 @@ bool Parser::parseRequestHeaders(const QByteArray &data, Socket::Method &method,
     return true;
 }
 
-bool Parser::parseResponseHeaders(const QByteArray &data, int &statusCode, QByteArray &statusReason, Socket::HeaderMap &headers)
+auto Parser::parseResponseHeaders(const QByteArray &data, int &statusCode, QByteArray &statusReason, Socket::HeaderMap &headers) -> bool
 {
     QList<QByteArray> parts;
     if (!parseHeaders(data, parts, headers)) {

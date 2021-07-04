@@ -125,7 +125,7 @@ Range::~Range()
     delete d;
 }
 
-Range& Range::operator=(const Range &other)
+auto Range::operator=(const Range &other) -> Range&
 {
     if (&other != this) {
         d->from = other.d->from;
@@ -136,7 +136,7 @@ Range& Range::operator=(const Range &other)
     return *this;
 }
 
-qint64 Range::from() const
+auto Range::from() const -> qint64
 {
     // Last N bytes requested
     if (d->from < 0 && d->dataSize != -1) {
@@ -156,7 +156,7 @@ qint64 Range::from() const
     return d->from;
 }
 
-qint64 Range::to() const
+auto Range::to() const -> qint64
 {
     // Last N bytes requested
     if (d->from < 0 && d->dataSize != -1) {
@@ -181,7 +181,7 @@ qint64 Range::to() const
     return d->to;
 }
 
-qint64 Range::length() const
+auto Range::length() const -> qint64
 {
     if (!isValid()) {
         return -1;
@@ -205,12 +205,12 @@ qint64 Range::length() const
     return -1;
 }
 
-qint64 Range::dataSize() const
+auto Range::dataSize() const -> qint64
 {
     return d->dataSize;
 }
 
-bool Range::isValid() const
+auto Range::isValid() const -> bool
 {
     // Valid cases:
     // 1. "-500/1000"   => from: -500, to:  -1; dataSize: 1000
@@ -256,7 +256,7 @@ bool Range::isValid() const
     return false;
 }
 
-QString Range::contentRange() const
+auto Range::contentRange() const -> QString
 {
     QString fromStr; QString toStr; QString sizeStr = "*";
 

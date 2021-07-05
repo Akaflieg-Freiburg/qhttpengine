@@ -26,10 +26,11 @@
 #include <QMap>
 #include <QObject>
 
-namespace QHttpEngine
-{
+#include "qhttpengine_export.h"
 
-class BasicAuthMiddlewarePrivate : public QObject
+namespace QHttpEngine {
+
+class QHTTPENGINE_EXPORT BasicAuthMiddlewarePrivate : public QObject
 {
     Q_OBJECT
 
